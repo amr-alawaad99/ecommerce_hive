@@ -39,6 +39,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState>{
   Future<void> signOut() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
+    stringBox!.clear();
     emit(GoogleSignOut());
   }
 

@@ -5,7 +5,7 @@ import '../../models/product_model.dart';
 class ProductDetailsScreen extends StatelessWidget {
   final Product product;
 
-  ProductDetailsScreen({required this.product});
+  const ProductDetailsScreen({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {

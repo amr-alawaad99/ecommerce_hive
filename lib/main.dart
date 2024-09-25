@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_cubit.dart';
+import 'package:ecommerce_hive/models/product_model.dart';
 import 'package:ecommerce_hive/screens/home_screen/home_screen.dart';
 import 'package:ecommerce_hive/screens/login_screen/login_screen.dart';
 import 'package:ecommerce_hive/shared/bloc_observer.dart';
@@ -22,8 +24,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
-  var productsBox = await Hive.openBox<Map>('products');
-
+  homeProducts = await Hive.openBox<Map>('homeProducts');
+  offlineProducts = await Hive.openBox<Map>('offlineProducts');
   stringBox = await Hive.openBox<String>('stringBox');
 
 
@@ -31,8 +33,11 @@ void main() async {
   if (stringBox?.get("uid") != null) {
     isSignedIn = true;
   }
+  print(isSignedIn);
 
-  runApp(MyApp(productsBox: productsBox, isSignedIn: isSignedIn));
+
+
+  runApp(MyApp(isSignedIn: isSignedIn));
   // void initState() {
   //   super.initState();
   //   productCubit.loadProducts();
@@ -45,20 +50,16 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final Box<Map> productsBox;
   final bool isSignedIn;
 
-  MyApp({required this.productsBox, required this.isSignedIn});
+  MyApp({required this.isSignedIn});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthenticationCubit(),),
-        BlocProvider(create: (context) => ProductCubit(
-          firestore: FirebaseFirestore.instance,
-          productsBox: productsBox,
-        )..loadProducts(),),
+        BlocProvider(create: (context) => ProductCubit()..doOnConnectionChange()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
