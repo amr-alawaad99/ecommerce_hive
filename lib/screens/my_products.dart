@@ -20,6 +20,7 @@ class MyProducts extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: const Text("My Products"),
             actions: [
               ValueListenableBuilder(

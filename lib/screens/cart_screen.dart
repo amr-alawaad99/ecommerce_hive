@@ -19,6 +19,7 @@ class CartScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: const Text("Cart"),
             actions: [
               ValueListenableBuilder(
@@ -186,6 +187,7 @@ class CartScreen extends StatelessWidget {
                     print(products[index].id);
                     offlineCart!.delete(products[index].id);
                   }
+                  homeCart!.delete(products[index].id);
                   context.read<ProductCubit>().onRemoveFromCart(product.id);
                 },
                 child: Ink(

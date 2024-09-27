@@ -1,6 +1,6 @@
 import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_cubit.dart';
 import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_state.dart';
-import 'package:ecommerce_hive/screens/home_screen.dart';
+import 'package:ecommerce_hive/screens/layout_screen.dart';
 import 'package:ecommerce_hive/widgets/custom_button.dart';
 import 'package:ecommerce_hive/widgets/custom_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,7 +26,7 @@ class EmailSignUpScreen extends StatelessWidget {
           if(state is SignUpUserSuccess){
             stringBox?.put("uid", FirebaseAuth.instance.currentUser!.uid);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Welcome, ${state.user.name!}.")));
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const LayoutScreen(),));
           }
           if(state is SignUpError){
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));

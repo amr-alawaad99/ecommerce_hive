@@ -3,6 +3,7 @@ import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_cubit.d
 import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_state.dart';
 import 'package:ecommerce_hive/screens/email_sign_in_screen.dart';
 import 'package:ecommerce_hive/screens/home_screen.dart';
+import 'package:ecommerce_hive/screens/layout_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) async {
         if(state is GoogleSignInSuccess){
           stringBox?.put("uid", FirebaseAuth.instance.currentUser!.uid);
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen(),), (route) => false,);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LayoutScreen(),), (route) => false,);
         } if(state is GoogleSignInFailure){
           log(state.error);
         }
