@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_cubit.dart';
-import 'package:ecommerce_hive/models/product_model.dart';
-import 'package:ecommerce_hive/screens/home_screen/home_screen.dart';
-import 'package:ecommerce_hive/screens/login_screen/login_screen.dart';
+import 'package:ecommerce_hive/screens/layout_screen.dart';
+import 'package:ecommerce_hive/screens/login_screen.dart';
 import 'package:ecommerce_hive/shared/bloc_observer.dart';
 import 'package:ecommerce_hive/shared/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,9 +21,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
+  stringBox = await Hive.openBox<String>('stringBox');
+  //Home Page
   homeProducts = await Hive.openBox<Map>('homeProducts');
   offlineProducts = await Hive.openBox<Map>('offlineProducts');
-  stringBox = await Hive.openBox<String>('stringBox');
+  // My Products Page
+  myProducts = await Hive.openBox<Map>('myProducts');
+  offlineEdited = await Hive.openBox<Map>('offlineEdited');
+  offlineDeleted = await Hive.openBox<String>("offlineDeleted");
+
+  homeCart = await Hive.openBox<Map>('homeCart');
+  removedFromCart = await Hive.openBox<String>('removedFromCart');
+  offlineCart = await Hive.openBox<Map>('offlineCart');
 
 
   bool isSignedIn = false;
@@ -38,15 +44,6 @@ void main() async {
 
 
   runApp(MyApp(isSignedIn: isSignedIn));
-  // void initState() {
-  //   super.initState();
-  //   productCubit.loadProducts();
-  //   Connectivity().onConnectivityChanged.listen((result) {
-  //     if (result != ConnectivityResult.none) {
-  //       productCubit.syncLocalProducts();
-  //     }
-  //   });
-  // }
 }
 
 class MyApp extends StatelessWidget {
@@ -58,7 +55,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthenticationCubit(),),
+        BlocProvider(create: (context) {
+          if(isSignedIn) {
+            return AuthenticationCubit()..fetchUserData();
+          } else {
+            return AuthenticationCubit();
+          }
+        },),
         BlocProvider(create: (context) => ProductCubit()..doOnConnectionChange()),
       ],
       child: MaterialApp(
@@ -67,7 +70,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: isSignedIn? HomeScreen() : const LoginScreen(),
+        home: isSignedIn? const LayoutScreen() : const LoginScreen(),
       ),
     );
   }

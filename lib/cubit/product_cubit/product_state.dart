@@ -4,11 +4,16 @@ abstract class ProductState {}
 
 class ProductInitial extends ProductState {}
 
+class ChangeSelectedIndex extends ProductState {}
+
 class InternetConnectionLost extends ProductState {}
 class InternetConnectionOn extends ProductState {}
 
 class ProductAddedOffline extends ProductState {}
 class ProductAddedOnline extends ProductState {}
+
+class ProductUpdatedOffline extends ProductState {}
+class ProductUpdatedOnline extends ProductState {}
 
 class ProductLoading extends ProductState {}
 

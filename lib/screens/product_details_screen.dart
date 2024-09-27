@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce_hive/cubit/product_cubit/product_cubit.dart';
 import 'package:flutter/material.dart';
-import '../../models/product_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../models/product_model.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final Product product;
@@ -10,7 +12,9 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(product.name)),
+      appBar: AppBar(
+        title: Text(product.name),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -33,10 +37,9 @@ class ProductDetailsScreen extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Handle purchasing logic here
-                // For example: Add to cart or checkout
+                context.read<ProductCubit>().onAddToCart(product);
               },
-              child: const Text('Buy Now'),
+              child: const Text('Add To Cart'),
             ),
           ],
         ),

@@ -1,19 +1,23 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_cubit.dart';
 import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_state.dart';
 import 'package:ecommerce_hive/cubit/product_cubit/product_cubit.dart';
 import 'package:ecommerce_hive/cubit/product_cubit/product_state.dart';
-import 'package:ecommerce_hive/screens/login_screen/login_screen.dart';
+import 'package:ecommerce_hive/models/user_model.dart';
+import 'package:ecommerce_hive/screens/login_screen.dart';
 import 'package:ecommerce_hive/shared/constants.dart';
 import 'package:ecommerce_hive/widgets/custom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import '../../models/product_model.dart';
-import '../add_product_screen/add_product_screen.dart';
-import '../product_details_screen/product_details_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../models/product_model.dart';
+import 'add_product_screen.dart';
+import 'product_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,10 +30,14 @@ class HomeScreen extends StatelessWidget {
         actions: [
           BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
-              return Text(
-                  "offline: ${offlineProducts!.length}, home: ${homeProducts!.length}  ");
-            },
-          )
+              return ValueListenableBuilder(
+                valueListenable: homeProducts!.listenable(),
+                builder: (context, Box<Map> box, _) {
+                  return Text("offline: ${offlineProducts!.length}, home: ${homeProducts!.length}  ");
+                  },
+              );
+              },
+          ),
         ],
       ),
       drawer: Drawer(
@@ -47,30 +55,46 @@ class HomeScreen extends StatelessWidget {
               }
             },
             builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: CachedNetworkImageProvider(
-                          FirebaseAuth.instance.currentUser!.photoURL!),
+              UserModel? user = context.read<AuthenticationCubit>().userData;
+              return Scaffold(
+                body: user == null?
+                const LinearProgressIndicator() :
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        if(FirebaseAuth.instance.currentUser?.photoURL != null)
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: CachedNetworkImageProvider(
+                              FirebaseAuth.instance.currentUser!.photoURL!),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(user.name!),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(user.email!),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(user.phone!),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        CustomButton(
+                          innerText: "Sign Out",
+                          onPressed: () async {
+                            await context.read<AuthenticationCubit>().signOut();
+                          },
+                          color: Colors.grey,
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(FirebaseAuth.instance.currentUser!.displayName!),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    CustomButton(
-                      innerText: "Sign Out",
-                      onPressed: () async {
-                        await context.read<AuthenticationCubit>().signOut();
-                      },
-                      color: Colors.grey,
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
@@ -80,10 +104,10 @@ class HomeScreen extends StatelessWidget {
       body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {
           return StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('products').snapshots(),
+            stream: FirebaseFirestore.instance.collection('products').orderBy("dateTime", descending: true).snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if(internetConnectionOn){
-                print("Online Mode");
+                log("Online Mode");
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -91,9 +115,6 @@ class HomeScreen extends StatelessWidget {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
                 if (snapshot.hasData) {
-                  if (snapshot.data?.size == 0) {
-                    return const Center(child: Text('No products available'));
-                  }
 
                   // Load products from Firestore and save them to Hive
                   for (var doc in snapshot.data!.docs) {
@@ -128,10 +149,14 @@ class HomeScreen extends StatelessWidget {
                 }
               }
               else {
-                print("Offline Mode");
+                log("Offline Mode");
                 List<Product> home = homeProducts!.values.map((productMap) {
                   return Product.fromMap(Map<String, dynamic>.from(productMap));
                 }).toList();
+
+                // Sort the list based on the "dateTime" key - reversed
+                home.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+
                 return buildProductGrid(home);
               }
             },
@@ -142,7 +167,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddProductScreen()),
+            MaterialPageRoute(builder: (context) => const AddProductScreen()),
           );
         },
         child: const Icon(Icons.add),
