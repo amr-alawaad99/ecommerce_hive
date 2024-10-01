@@ -1,4 +1,4 @@
-import 'package:ecommerce_hive/models/user_model.dart';
+import 'package:ecommere_hive_javaprint/models/user_model.dart';
 import 'package:hive/hive.dart';
 
 Box<String>? stringBox;

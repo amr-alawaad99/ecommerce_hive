@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCqjFnoPxJhkE9Ag6Xw0BGw9RS6nC_2mls',
-    appId: '1:241671014791:android:6cec18220f92dc612c6b22',
+    appId: '1:241671014791:android:13ab951a9dc87bf72c6b22',
     messagingSenderId: '241671014791',
     projectId: 'ecommerce-hive-f01fd',
     storageBucket: 'ecommerce-hive-f01fd.appspot.com',
@@ -59,10 +59,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAjTUzN9uoGISkANlVYPT-gZMYaCg5P0q8',
-    appId: '1:241671014791:ios:8053498c0429d3192c6b22',
+    appId: '1:241671014791:ios:b3cc541f291c9b052c6b22',
     messagingSenderId: '241671014791',
     projectId: 'ecommerce-hive-f01fd',
     storageBucket: 'ecommerce-hive-f01fd.appspot.com',
-    iosBundleId: 'com.example.ecommerceHive',
+    androidClientId: '241671014791-9md9fpb6t3vdn43e998one2etnmve7ir.apps.googleusercontent.com',
+    iosClientId: '241671014791-m5f9s6jva1oq8atciljttjejfm7oonse.apps.googleusercontent.com',
+    iosBundleId: 'com.example.ecommereHiveJavaprint',
   );
+
 }

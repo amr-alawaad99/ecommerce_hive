@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:241671014791:android:13ab951a9dc87bf72c6b22",
+        "android_client_info": {
+          "package_name": "com.example.ecommere_hive_javaprint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241671014791-slgs8384tnn7emd7co3e49ukjfcsglom.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqjFnoPxJhkE9Ag6Xw0BGw9RS6nC_2mls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241671014791-slgs8384tnn7emd7co3e49ukjfcsglom.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "241671014791-sl338fgpk0nffbkbng3n15vhgiv2u9m5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ecommerceHive"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:241671014791:android:6cec18220f92dc612c6b22",
         "android_client_info": {
           "package_name": "com.kyoutech.ecommerce_hive"

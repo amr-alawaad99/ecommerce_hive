@@ -1,8 +1,8 @@
-import 'package:ecommerce_hive/cubit/authentication_cubit/authentication_cubit.dart';
-import 'package:ecommerce_hive/screens/layout_screen.dart';
-import 'package:ecommerce_hive/screens/login_screen.dart';
-import 'package:ecommerce_hive/shared/bloc_observer.dart';
-import 'package:ecommerce_hive/shared/constants.dart';
+import 'package:ecommere_hive_javaprint/cubit/authentication_cubit/authentication_cubit.dart';
+import 'package:ecommere_hive_javaprint/screens/layout_screen.dart';
+import 'package:ecommere_hive_javaprint/screens/login_screen.dart';
+import 'package:ecommere_hive_javaprint/shared/bloc_observer.dart';
+import 'package:ecommere_hive_javaprint/shared/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

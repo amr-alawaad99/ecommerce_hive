@@ -12,6 +12,9 @@ class InternetConnectionOn extends ProductState {}
 class ProductAddedOffline extends ProductState {}
 class ProductAddedOnline extends ProductState {}
 
+class ScanningBluetoothDevices extends ProductState {}
+class StoppedScanningBluetoothDevices extends ProductState {}
+
 class ProductUpdatedOffline extends ProductState {}
 class ProductUpdatedOnline extends ProductState {}
 

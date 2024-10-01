@@ -1,4 +1,4 @@
-import 'package:ecommerce_hive/shared/constants.dart';
+import 'package:ecommere_hive_javaprint/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/product_cubit/product_cubit.dart';

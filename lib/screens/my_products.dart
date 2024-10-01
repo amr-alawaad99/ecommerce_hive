@@ -1,11 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_hive/screens/edit_product.dart';
+import 'package:ecommere_hive_javaprint/screens/edit_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import '../cubit/product_cubit/product_cubit.dart';
 import '../cubit/product_cubit/product_state.dart';
 import '../models/product_model.dart';

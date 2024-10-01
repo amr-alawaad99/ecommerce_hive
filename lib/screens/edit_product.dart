@@ -1,7 +1,7 @@
-import 'package:ecommerce_hive/cubit/product_cubit/product_cubit.dart';
-import 'package:ecommerce_hive/shared/constants.dart';
-import 'package:ecommerce_hive/widgets/custom_button.dart';
-import 'package:ecommerce_hive/widgets/custom_input_field.dart';
+import 'package:ecommere_hive_javaprint/cubit/product_cubit/product_cubit.dart';
+import 'package:ecommere_hive_javaprint/shared/constants.dart';
+import 'package:ecommere_hive_javaprint/widgets/custom_button.dart';
+import 'package:ecommere_hive_javaprint/widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/product_model.dart';

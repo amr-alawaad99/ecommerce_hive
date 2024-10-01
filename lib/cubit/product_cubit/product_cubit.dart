@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:ecommerce_hive/cubit/product_cubit/product_state.dart';
-import 'package:ecommerce_hive/shared/constants.dart';
+import 'package:ecommere_hive_javaprint/cubit/product_cubit/product_state.dart';
+import 'package:ecommere_hive_javaprint/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import '../../models/product_model.dart';
 
 class ProductCubit extends Cubit<ProductState> {
@@ -223,5 +224,19 @@ class ProductCubit extends Cubit<ProductState> {
     });
   }
 
+  /// BlueTooth and Printing
+  Future scanDevices() async {
 
+    emit(ScanningBluetoothDevices());
+    await FlutterBluePlus.startScan(timeout: const Duration(seconds: 20));
+
+  }
+
+  Stream<List<ScanResult>> get scanResult => FlutterBluePlus.scanResults;
+
+
+  Future<void> connectToDevice(BluetoothDevice device) async {
+    await device.connect();
+    print("WWWWWWWWWWWWVVVVVVVVVV ${device.isConnected}");
+  }
 }
